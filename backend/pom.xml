@@ -23,12 +23,12 @@
 				</dependency>
 			</dependencies>
 			<properties>
-				<database.dialect>org.hibernate.dialect.H2Dialect</database.dialect>
-				<database.driver>org.h2.Driver</database.driver>
-				<database.url>jdbc:h2:./data/costsbase</database.url>
-				<database.user>sa</database.user>
-				<database.password></database.password>
-				<database.auto>update</database.auto>
+				<spring.datasource.dialect>org.hibernate.dialect.H2Dialect</spring.datasource.dialect>
+				<spring.datasource.driver>org.h2.Driver</spring.datasource.driver>
+				<spring.datasource.url>jdbc:h2:./data/costsbase</spring.datasource.url>
+				<spring.datasource.username>sa</spring.datasource.username>
+				<spring.datasource.password></spring.datasource.password>
+				<spring.datasource.auto>update</spring.datasource.auto>
 			</properties>
 		</profile>
 		<profile>
@@ -42,12 +42,12 @@
 				</dependency>
 			</dependencies>
 			<properties>
-				<database.dialect>org.hibernate.dialect.PostgreSQLDialect</database.dialect>
-				<database.driver>org.postgresql.Driver</database.driver>
-				<database.url>jdbc:postgresql://localhost:5432/costs</database.url>
-				<database.user>me</database.user>
-				<database.password>578</database.password>
-				<database.auto>update</database.auto>
+				<spring.datasource.dialect>org.hibernate.dialect.PostgreSQLDialect</spring.datasource.dialect>
+				<spring.datasource.driver>org.postgresql.Driver</spring.datasource.driver>
+				<spring.datasource.url>jdbc:postgresql://localhost:5432/costs</spring.datasource.url>
+				<spring.datasource.username>me</spring.datasource.username>
+				<spring.datasource.password>578</spring.datasource.password>
+				<spring.datasource.auto>update</spring.datasource.auto>
 			</properties>
 		</profile>
 	</profiles>
@@ -68,6 +68,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<hibernate.version>5.1.0.Final</hibernate.version>
+		<spring.jpa.hibernate.ddl-auto>create-drop</spring.jpa.hibernate.ddl-auto>
+		<spring.jpa.show-sql>true</spring.jpa.show-sql>
 	</properties>
 
 	<build>

@@ -1,13 +1,11 @@
-package edu.costs.main;
+package edu.costs;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Launcher {
-
-	public static void main(String[] args) {
-		SpringApplication.run(Launcher.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(Launcher.class, args);
+    }
 }

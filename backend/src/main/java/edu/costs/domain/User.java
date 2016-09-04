@@ -1,4 +1,4 @@
-package edu.costs.data;
+package edu.costs.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package edu.costs.data;
+package edu.costs.domain;
 
 import java.time.LocalDateTime;
 
