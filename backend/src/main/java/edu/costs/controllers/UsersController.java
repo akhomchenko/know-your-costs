@@ -1,26 +1,25 @@
 package edu.costs.controllers;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.costs.domain.User;
+import edu.costs.repositories.UserRepository;
 
 @RestController
-@Transactional
-public class UsersController {
+@RequestMapping("/user")
+public class UsersController extends CRUDController<User>{
+	private UserRepository repo;
 
-	@PersistenceContext
-	private EntityManager mgr;
+	@Autowired
+	public UsersController(UserRepository repo) {
+		this.repo = repo;
+	}
 
-	@RequestMapping("/")
-	public User greeting() {
-		User user = new User();
-		user.setName("New user");
-		mgr.persist(user);
-		return user;
+	@Override
+	protected JpaRepository<User, Long> getRepository() {
+		return repo;
 	}
 }
