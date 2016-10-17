@@ -9,7 +9,7 @@ import edu.costs.domain.User;
 import edu.costs.repositories.UserRepository;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UsersController extends CRUDController<User>{
 	private UserRepository repo;
 

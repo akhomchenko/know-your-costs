@@ -1,45 +1,70 @@
 package edu.costs.controllers;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import edu.costs.domain.Identifiable;
+
 @Transactional
-public abstract class CRUDController<T> {
+public abstract class CRUDController<T extends Identifiable> {
 	@PersistenceContext
-	private EntityManager em;
+	protected EntityManager em;
 	
 	protected abstract JpaRepository<T, Long> getRepository();
 
-
-	@RequestMapping(method = RequestMethod.PUT)
-	public T create(@RequestBody T object) {
-		if (em.contains(object)) {
-			throw new IllegalArgumentException("Object already exists!");
-		}
-		return getRepository().saveAndFlush(object);
-	}
-
-	@RequestMapping(method = RequestMethod.GET)
-	public T read(long id) {
-		return getRepository().findOne(id);
-	}
-
 	@RequestMapping(method = RequestMethod.POST)
-	public T update(@RequestBody T object) {
-		if (!em.contains(object)) {
-			throw new IllegalArgumentException("Object doesn't exist!");
+	public ResponseEntity<T> create(@RequestBody @Valid T object) {
+		Long id = object.getId();
+		if (id != null && getRepository().findOne(id) != null) {
+			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
-		return getRepository().saveAndFlush(object);
+		return new ResponseEntity<>(getRepository().saveAndFlush(object), HttpStatus.CREATED);
+	}
+
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<T> read(@PathVariable long id) {
+		T found = getRepository().findOne(id);
+		if (found == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(found, HttpStatus.OK);
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE)
-	public void delete(long id) {
+	@RequestMapping(method = RequestMethod.GET)
+	public List<T> readAll() {
+		return getRepository().findAll();
+	}
+
+	@RequestMapping(method = RequestMethod.PUT)
+	public ResponseEntity<T> update(@RequestBody @Valid T object) {
+		Long id = object.getId();
+		if (object.getId() == null) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		if (getRepository().findOne(id) == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<T>(getRepository().saveAndFlush(object), HttpStatus.OK);
+	}
+	
+	@RequestMapping(path = "/{id}",method = RequestMethod.DELETE)
+	public ResponseEntity<T> delete(@PathVariable long id) {
+		if (getRepository().findOne(id) == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 		getRepository().delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }

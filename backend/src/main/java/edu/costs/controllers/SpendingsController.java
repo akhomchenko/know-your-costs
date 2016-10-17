@@ -9,7 +9,7 @@ import edu.costs.domain.Spending;
 import edu.costs.repositories.SpendingRepository;
 
 @RestController
-@RequestMapping("/spending")
+@RequestMapping("/spendings")
 public class SpendingsController extends CRUDController<Spending>{
 	private SpendingRepository repo;
 
