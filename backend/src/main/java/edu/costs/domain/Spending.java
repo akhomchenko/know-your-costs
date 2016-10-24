@@ -7,26 +7,33 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "SPENDINGS")
-public class Spending {
+public class Spending implements Identifiable {
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
+	@NotNull(message = "{spending.timestamp.null}")
 	private LocalDateTime timestamp;
+	@Min(value = 0, message = "{spending.amount.min}")
 	private double amount;
 	private String[] tags;
 	@OneToOne
+	@NotNull(message = "{spending.owner.null}")
 	private User owner;
+	@NotNull(message = "{Spending.author.null}")
 	@OneToOne
 	private User author;
 
-	public long getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

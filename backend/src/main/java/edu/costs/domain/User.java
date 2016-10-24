@@ -4,20 +4,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "USERS")
-public class User {
+public class User implements Identifiable{
 	@Id
 	@GeneratedValue
-	private long id;
+	private Long id;
+	@NotNull(message = "user.name.null")
+	@Size(max = 30, message = "user.name.size")
 	private String name;
 
-	public long getId() {
+	@Override
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
